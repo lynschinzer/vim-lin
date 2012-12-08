@@ -1,3 +1,4 @@
+"source ~/.vim/bundles.vim
 set foldmethod=manual
 set foldlevel=9
 set smartindent
@@ -28,7 +29,7 @@ set guioptions=ac
 set guicursor=n-v-c:block-Cursor-blinkon0,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor,r-cr:hor20-Cursor,sm:block-Cursor-blinkwait175-blinkoff150-blinkon175
 set ttyfast
 set vb
-set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
+set stl=%f\ %m\ %r\ LN:\ %l/%L[%p%%]\ X:\ %c\ BF:\#%n\ [%b][0x%B]
 set history=100
 " Add the unnamed register to the clipboard
 set clipboard+=unnamed
@@ -36,169 +37,176 @@ set clipboard+=unnamed
 set showfulltag
 " Make the command-line completion better
 set wildmenu
-set wildignore=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*.class
+set wildignore=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*.class,*/obj/*,*/dest/*,*/images/*,*.pj,*.obj,*.lib,*.exe
 set wildmode=list:full
 set timeoutlen=500
+
+colorscheme molokai
 
 let mapleader = ","
 let g:tagbar_left = 1
 let g:tagbar_width = 30
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+let g:Powerline_symbols = 'fancy'
 
-command! Beautifier :r !~/dev/js-beautify/python/js-beautify -f -j %
 
 "----quick save
-nnoremap <c-s> :update<CR>
-inoremap <c-s> <c-o>:update<CR>
-vnoremap <c-s> <Esc>:update<CR>
-
+nnoremap <c-s> :update<cr>
 "----replace with yanked word
 nnoremap <a-o> mzdiw"0P`z
 nnoremap <a-i> mzyiw`z
-
-"----undo
-inoremap <c-z> <c-o>u
-
-
 "---- local replace
-nnoremap gr gd[{V%:s/<C-R>///gc<left><left><left>
-
+nnoremap gr gd[{V%:s/<c-r>///gc<left><left><left>
 "---- global replace
-nnoremap gR gD:%s/<C-R>///gc<left><left><left>
-
+nnoremap gR gD:%s/<c-r>///gc<left><left><left>
 "---- insert line break and space
 nnoremap <leader><leader> ,
-nnoremap <BS> i<BS><ESC><right>
-nnoremap <Space> i<Space><Esc>
-nnoremap <a-j> i<cr><Esc>
-inoremap <S-CR> <c-o><s-o>
-nnoremap <C-M> mzo<esc>`z
-nnoremap <S-CR> mz<s-o><esc>`z
-
-"---- insert global unique hash
-inoremap <C-J>d <C-r>=substitute(system("uuidgen"), '.$', '', 'g')<CR>
+nnoremap <bs> i<bs><esc><right>
+nnoremap <space> i<space><esc>
+nnoremap <cr> i<cr><Esc>
+nnoremap <a-j> mzo<esc>`z
+nnoremap <s-cr> mz<s-o><esc>`z
 " search the current file for what's currently in the search register and display matches
 nnoremap <silent> ,gs :vimgrep /<C-r>// %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
-
 " search the current file for the word under the cursor and display matches
 nnoremap <silent> ,gw :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
-
 " search the current file for the WORD under the cursor and display matches
 nnoremap <silent> ,gW :vimgrep /<C-r><C-a>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 nnoremap ,gg :vimgrep // ./**/*<left><left><left><left><left><left><left><left>
-nmap ,x :w<cr>:!chmod 755 %<cr>:e<cr>
-
 " swap two words
-nnoremap <silent> gw :s/\(\w*\%#\w*\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>``
+nnoremap <silent> <a-T> :s/\(\w*\%#\w*\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>``
 nnoremap <silent> <a-t> :s/\(\w\+\)\(\_W\+\)\(\w*\%#\w*\)/\3\2\1/<CR>``
-
-vnoremap <space> <esc>
-inoremap kj <esc>
-inoremap jk <esc>
-
-"----rot 13
-noremap <c-up> ggg?G``
-
-"----invert up down
-noremap <c-down> :g/^/m0<CR>
-
-"----reverse left right
-noremap <c-left> <Esc>:se rl!<CR> 
-noremap <c-right> :%s/\(\<.\{-}\>\)/\=join(reverse(split(submatch(1), '.\zs')), '')/g<CR>
-
-"----customize my vim anytime
-noremap  <F2>       <Esc><c-w>v:e $MYVIMRC<CR>
-nnoremap <c-F2>     :mapclear<CR>:so %<CR>
-inoremap <c-F2>     <c-o>:mapclear<CR><c-o>:so %<CR>
-
-"----view last opened file on startup
-nnoremap <silent> <s-F1> :MRU<CR>
-
-"----tree file browser
-nnoremap <silent> <s-F2> :NERDTreeToggle<CR>
-inoremap <silent> <s-F2> <c-o>:NERDTreeToggle<CR>
-
-"----jump around function def
-nnoremap <silent> <s-F3> :TagbarToggle<CR>
-inoremap <silent> <s-F3> <c-o>:TagbarToggle<CR>
-
-"----terminal key behavior
-inoremap <a-a>      <c-o>ge<c-o>ge<Right>
-inoremap <a-e>      <c-o>e<Right>
-cnoremap <a-f>      <S-Right>
-inoremap <a-f>      <S-Right>
-cnoremap <a-b>      <S-Left>
-inoremap <a-b>      <S-Left>
-cnoremap <c-a>      <Home>
-cnoremap <c-e>      <End>
-cnoremap <c-b>      <Left>
-cnoremap <c-f>      <Right>
-cnoremap <c-n>      <PageDown>
-cnoremap <c-p>      <PageUp>
-
-"----delete word under cursor
-inoremap <a-d> <c-o>daw
-inoremap <c-d> <del>
-inoremap <c-b> <c-o>^
-inoremap <c-f> <c-o>$
-cnoremap <c-d> <del>
-
-"----window sizer
-noremap <silent> <C-F9>  :vertical resize -10<CR>
-noremap <silent> <C-F10> :resize +10<CR>
-noremap <silent> <C-F11> :resize -10<CR>
-noremap <silent> <C-F12> :vertical resize +10<CR>
-noremap <silent> ,s8 :vertical resize 83<CR>
-noremap <silent> ,cj :wincmd j<CR>:close<CR>
-noremap <silent> ,ck :wincmd k<CR>:close<CR>
-noremap <silent> ,ch :wincmd h<CR>:close<CR>
-noremap <silent> ,cl :wincmd l<CR>:close<CR>
-noremap <silent> ,cc :close<CR>
-noremap <silent> ,cw :cclose<CR>
-noremap <silent> <C-7> <C-W>>
-noremap <silent> <C-8> <C-W>+
-noremap <silent> <C-9> <C-W>+
-noremap <silent> <C-0> <C-W>>
-
-"----copy paste with ctrl CV
-nnoremap <C-V> "+gp
-inoremap <C-V> <ESC>"+gpi
-cnoremap <C-V> <c-r>+
-vnoremap <C-C> "+y
-
+"----permission
+nnoremap ,x :w<cr>:!chmod 755 %<cr>:e<cr>
+"----apply vim config
+nnoremap <c-F2> :mapclear<cr>:so %<cr>
+"----case insensitive search
+nnoremap <c-?> /\c
 "----move between windows
 nnoremap <c-h> <c-w>h
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
-nnoremap <silent> <a-/> :let @/=""<CR>
- 
+nnoremap <silent> <a-/> :let @/=""<cr>
+"----paste with ctrl V
+nnoremap <c-v> "+gp
 "----move line up down
-nnoremap <a-n> :m+<CR>==
-nnoremap <a-p> :m-2<CR>==
+nnoremap <a-n> :m+<cr>==
+nnoremap <a-p> :m-2<cr>==
+"----switch buffer
+nnoremap <a-h> :bp<cr>
+nnoremap <a-l> :bn<cr>
+"---- <leader>v selects the just pasted text
+nnoremap <leader>] V`]
+"---- Remove trailing whitespace on <leader>S
+nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<cr>
+"----view last opened file on startup
+nnoremap <silent> <s-f1> :MRU<cr>
+"----nerdtree
+nnoremap <silent> <s-f2> :NERDTreeToggle<cr>
+"----function def
+nnoremap <silent> <s-f3> :TagbarToggle<cr>
+
+
+
+
+"----linebreak newline above
+inoremap <s-cr> <c-o><s-o>
+"----quick save
+inoremap <c-s> <c-o>:update<cr>
+"----undo
+inoremap <c-z> <c-o>u
+"---- insert global unique hash
+inoremap <c-j>d <c-r>=substitute(system("uuidgen"), '.$', '', 'g')<CR>
+"----(quit esc exit) insert mode
+inoremap kj <esc>
+inoremap jk <esc>
+"----apply vim config
+inoremap <c-F2>     <c-o>:mapclear<CR><c-o>:so %<CR>
+"----nerdtree
+inoremap <silent> <s-F2> <c-o>:NERDTreeToggle<CR>
+"----function def
+inoremap <silent> <s-F3> <c-o>:TagbarToggle<CR>
+"----move cursor
+inoremap <a-a>      <c-o>ge<c-o>ge<right>
+inoremap <a-e>      <c-o>e<Right>
+inoremap <a-f>      <S-Right>
+inoremap <a-b>      <S-Left>
+inoremap <c-a> <c-o>^
+inoremap <c-e> <c-o>$
+"----move line
 inoremap <a-n> <Esc>:m+<CR>==gi
 inoremap <a-p> <Esc>:m-2<CR>==gi
-vnoremap <a-n> :m'>+<CR>gv=gv
-vnoremap <a-p> :m-2<CR>gv=gv
-
+"----delete word
+inoremap <a-d> <c-o>daw
+"----delete char
+inoremap <c-d> <del>
+"----ctrl+v paste
+inoremap <c-v> <esc>"+gpi
 "----move cursor UDRL
 inoremap <a-h> <left>
 inoremap <a-j> <down>
 inoremap <a-k> <up>
 inoremap <a-l> <right>
-nnoremap <a-h> :bp<CR>
-nnoremap <a-l> :bn<CR>
 
-"---- <leader>v selects the just pasted text
-nnoremap <leader>v V`]
-"---- Remove trailing whitespace on <leader>S
-nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<CR>
 
-nmap <silent> ,qq :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+cnoremap <c-d>      <del>
+cnoremap <a-b>      <s-left>
+cnoremap <a-f>      <S-right>
+cnoremap <c-a>      <home>
+cnoremap <c-e>      <end>
+cnoremap <c-b>      <left>
+cnoremap <c-f>      <right>
+cnoremap <c-n>      <pageDown>
+cnoremap <c-p>      <pageUp>
+"----ctrl+v paste
+cnoremap <c-v> <c-r>+
+
+
+"----window sizer
+noremap <silent> <C-F8>  <c-w>v :e ~/Desktop/thesis<cr>GO
+noremap <silent> <C-F9>  :vertical resize -10<cr>
+noremap <silent> <C-F10> :resize +10<cr>
+noremap <silent> <C-F11> :resize -10<cr>
+noremap <silent> <C-F12> :vertical resize +10<cr>
+noremap <silent> ,w8 :vertical resize 83<cr>
+noremap <silent> ,wj :wincmd j<cr>:close<cr>
+noremap <silent> ,wk :wincmd k<cr>:close<cr>
+noremap <silent> ,wh :wincmd h<cr>:close<cr>
+noremap <silent> ,wl :wincmd l<cr>:close<cr>
+noremap <silent> ,wc :close<cr>
+noremap <silent> ,ww :cclose<cr>
+noremap <silent> <c-7> <c-w>>
+noremap <silent> <c-8> <c-w>+
+noremap <silent> <c-9> <c-w>+
+noremap <silent> <c-0> <c-w>>
+"----rot 13
+noremap <c-up> ggg?G``
+"----invert up down
+noremap <c-down> :g/^/m0<cr>
+"----reverse left right
+noremap <c-left> <esc>:se rl!<cr> 
+"----reverse inplace
+noremap <c-right> :%s/\(\<.\{-}\>\)/\=join(reverse(split(submatch(1), '.\zs')), '')/g<cr>
+noremap <leader>ms :%sort<cr>
+"----customize my vim anytime
+noremap  <f2>       <esc><c-w>v:e $MYVIMRC<cr>
+
+ 
+"----quit visual mode
+vnoremap <space> <esc>
+"----move line up down
+vnoremap <a-n> :m'>+<cr>gv=gv
+vnoremap <a-p> :m-2<cr>gv=gv
+"----copy with ctrl C
+vnoremap <c-c> "+y
+"----quick save
+vnoremap <c-s> <esc>:update<cr>
+
+
+nmap <silent> ,qq :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
 
 autocmd BufEnter * silent! lcd %:p:h
-
-colorscheme molokai
 
 "----toggle relative number
 let g:relnum = 0
@@ -209,7 +217,7 @@ function! ToggleRelNum()
     set number
   endif
 endfunction
-nnoremap <silent> gt :call ToggleRelNum()<CR>
+nnoremap <silent> gt :call ToggleRelNum()<cr>
 
 
 function! s:Gm()
@@ -226,19 +234,96 @@ set wildignore+=tmp\*,*.swp,*.zip,*.exe   " Windows
 
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 
-function! SearchNoComment(str, opt)
-    let b:found = 0
-    while (b:found == 0)
-        call search(a:str, a:opt)
-        let b:name=synIDattr( synID(line('.'), col('.'), 1), "name")
-        "Whether it's within a comment?
-        if b:name !~? "comment"
-            let b:found=1
-        endif
-    endwhile
-endfunction
-nnoremap n :silent call SearchNoComment('<C-R>=@/<CR>', 'f')<CR>
-nnoremap N :silent call SearchNoComment('<C-R>=@/<CR>', 'b')<CR>
+"----search skip comment
+"function! SearchNoComment(str, opt)
+    "let b:found = 0
+    "while (b:found == 0)
+        "call search(a:str, a:opt)
+        "let b:name=synIDattr( synID(line('.'), col('.'), 1), "name")
+        ""Whether it's within a comment?
+        "if b:name !~? "comment"
+            "let b:found=1
+        "endif
+    "endwhile
+"endfunction
+"nnoremap n :silent call SearchNoComment('<C-R>=@/<CR>', '')<CR>
+"nnoremap N :silent call SearchNoComment('<C-R>=@/<CR>', 'b')<CR>
 
 filetype plugin indent on
 call pathogen#infect()
+
+" Disable AutoComplPop. Comment out this line if AutoComplPop is not installed.
+let g:acp_enableAtStartup = 0
+" Launches neocomplcache automatically on vim startup.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" Use underscore completion.
+let g:neocomplcache_enable_underbar_completion = 1
+" Sets minimum char length of syntax keyword.
+let g:neocomplcache_min_syntax_length = 3
+" buffer file name pattern that locks neocomplcache. e.g. ku.vim or fuzzyfinder 
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
+" Define file-type dependent dictionaries.
+let g:neocomplcache_dictionary_filetype_lists = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+    \ }
+
+" Define keyword, for minor languages
+if !exists('g:neocomplcache_keyword_patterns')
+  let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
+
+" SuperTab like snippets behavior.
+"imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+"inoremap <expr><c-e>  neocomplcache#cancel_popup()
+
+" AutoComplPop like behavior.
+"let g:neocomplcache_enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplcache_enable_auto_select = 1
+"let g:neocomplcache_disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
+"inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+
+" Enable omni completion. Not required if they are already set elsewhere in .vimrc
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType less setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion, which require computational power and may stall the vim. 
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+"autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
