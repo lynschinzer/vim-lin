@@ -3,12 +3,17 @@
 if [ -d ~/.vim/ ]; then
     mv ~/.vim ~/.vim_backup
 fi
+if [ -d ~/.fonts/ ]; then
+    mv ~/.fonts ~/.fonts_backup
+fi
 
-ln --symbolic . .vim
-mv .vim ~/
+prev=`pwd`
 
-ln --symbolic .vimrc vimrc
-mv vimrc ~/.vimrc
+cd ~/
+ln --symbolic $prev/fonts ~/.fonts
+ln --symbolic $prev/vimrc ~/.vimrc
+ln --symbolic $prev        ~/.vim
+cd -
 
 echo "+----------------------------+" 
 echo "| Lin's vim config installed |"
