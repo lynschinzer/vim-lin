@@ -4,7 +4,7 @@
 " License: GPL v2.0 
 " 
 " Description:
-" This script defineds functions and key mappings for Tab completion in 
+" This script defineds functionsand key mappings for Tab completion in 
 " searches.
 " 
 " Help:
@@ -46,10 +46,14 @@ noremap / :call SearchCompleteStart()<CR>/
 " Set mappings for search complete
 "-------------------------------------------------- 
 function! SearchCompleteStart()
-	cnoremap <Tab> <C-C>:call SearchComplete()<CR>/<C-R>s
-	cnoremap <silent> <CR> <CR>:call SearchCompleteStop()<CR>
-	cnoremap <silent> <Esc> <C-C>:call SearchCompleteStop()<CR>
-	cnoremap <silent> <C-C> <C-C>:call SearchCompleteStop()<CR>
+    cnoremap <Tab> <C-C>:call SearchComplete()<CR>/<C-R>s
+    cnoremap <silent> <CR> <CR>:call SearchCompleteStop()<CR>
+    cnoremap <silent> <Esc> <Esc>:call SearchCompleteStop()<CR>
+    cnoremap <silent> <C-C> <C-C>:call SearchCompleteStop()<CR>
+endfunction
+
+function! CheckSlash()
+    getcmdpos()<2 ? call SearchCompleteStop()<BS> : <BS>
 endfunction
 
 "--------------------------------------------------
@@ -94,8 +98,8 @@ endfunction
 " Remove search complete mappings
 "-------------------------------------------------- 
 function! SearchCompleteStop()
-	cunmap <Tab>
-	cunmap <CR>
-	cunmap <Esc>
+    cunmap <Tab>
+    cunmap <C-C>
+    cunmap <CR>
+    cunmap <Esc>
 endfunction
-

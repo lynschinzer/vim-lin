@@ -25,11 +25,12 @@ Bundle 'gmarik/vundle'
 "------------------
 " Code Completions
 "------------------
-Bundle 'Shougo/neocomplcache' "popup completion
-Bundle 'garbas/vim-snipmate'  "code snippets
-Bundle 'honza/snipmate-snippets'  "snippet templates
-Bundle 'ervandew/supertab'    
-Bundle 'rstacruz/sparkup'     "zen-coding equivalence
+Bundle 'Shougo/neocomplcache'    " popup completion
+Bundle 'garbas/vim-snipmate'     " code snippets
+Bundle 'honza/snipmate-snippets' " snippet templates
+Bundle 'Shougo/neosnippet'       " snippet templates
+Bundle 'ervandew/supertab'       " tab completion
+Bundle 'rstacruz/sparkup'        " zen-coding equivalence
 
 " snipmate dependencies
 Bundle 'MarcWeber/vim-addon-mw-utils'
@@ -38,36 +39,37 @@ Bundle 'tomtom/tlib_vim'
 "-----------------
 " Fast navigation
 "-----------------
-Bundle 'tsaleh/vim-matchit'
-Bundle 'Lokaltog/vim-easymotion'
+Bundle 'tsaleh/vim-matchit'      " match <tags>
+Bundle 'Lokaltog/vim-easymotion' " visual hints
 
 "--------------
 " Fast editing
 "--------------
-Bundle 'tpope/vim-surround'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'sjl/gundo.vim'
+Bundle 'tpope/vim-surround'       " match surround symbols
+Bundle 'scrooloose/nerdcommenter' " toggle comments
+Bundle 'sjl/gundo.vim'            " visualize undo tree
+
 "Bundle 'Raimondi/delimitMate'
-Bundle 'kana/vim-smartinput'
-Bundle 'godlygeek/tabular'
+Bundle 'kana/vim-smartinput'             " auto close brackets
+Bundle 'godlygeek/tabular'               " align symbols
 Bundle 'nathanaelkane/vim-indent-guides'
 
 "--------------
 " IDE features
 "--------------
-Bundle 'scrooloose/nerdtree'
-Bundle 'majutsushi/tagbar'
-Bundle 'humiaozuzu/TabBar'
-Bundle 'mileszs/ack.vim'
-Bundle 'kien/ctrlp.vim'
-Bundle 'tpope/vim-fugitive'
-Bundle 'Lokaltog/vim-powerline'
-Bundle 'scrooloose/syntastic'
+Bundle 'scrooloose/nerdtree'    " file browser
+Bundle 'majutsushi/tagbar'      " function list
+Bundle 'humiaozuzu/TabBar'      " tabs
+Bundle 'mileszs/ack.vim'        " faster grep
+Bundle 'kien/ctrlp.vim'         " fuzzy file finder
+Bundle 'tpope/vim-fugitive'     " git integration
+Bundle 'Lokaltog/vim-powerline' " fancy status line
+Bundle 'scrooloose/syntastic'   " static syntax check
 
 "-------------
 " Other Utils
 " ------------
-Bundle 'humiaozuzu/fcitx-status'
+Bundle 'humiaozuzu/fcitx-status' 
 Bundle 'nvie/vim-togglemouse'
 
 "----------------------------------------

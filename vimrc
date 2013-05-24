@@ -2,8 +2,8 @@
 set foldmethod=manual
 set foldlevel=9
 set smartindent
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
 set hlsearch
 set number
@@ -25,10 +25,11 @@ set showmode
 set mousehide
 set modifiable
 set t_Co=256
+set guifont=inconsolata-dz\ for\ Powerline
 set guioptions=ac
 set guicursor=n-v-c:block-Cursor-blinkon0,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor,r-cr:hor20-Cursor,sm:block-Cursor-blinkwait175-blinkoff150-blinkon175
 set ttyfast
-set vb
+set vb "visualbell
 set stl=%f\ %m\ %r\ LN:\ %l/%L[%p%%]\ X:\ %c\ BF:\#%n\ [%b][0x%B]
 set history=100
 " Add the unnamed register to the clipboard
@@ -41,15 +42,58 @@ set wildignore=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*
 set wildmode=list:full
 set timeoutlen=500
 
-colorscheme molokai
+"colorscheme molokai
 
-let mapleader = ","
+"let mapleader = ","
 let g:tagbar_left = 1
 let g:tagbar_width = 30
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 let g:Powerline_symbols = 'fancy'
 
+map Y y$
 
+"----window sizer
+noremap <silent> <C-F8>  <c-w>v :e ~/Desktop/thesis<cr>GO
+noremap <silent> <C-F9>  :vertical resize -10<cr>
+noremap <silent> <C-F10> :resize +10<cr>
+noremap <silent> <C-F11> :resize -10<cr>
+noremap <silent> <C-F12> :vertical resize +10<cr>
+noremap <silent> <leader>w8 :vertical resize 83<cr>
+noremap <silent> <leader>wj :wincmd j<cr>:close<cr>
+noremap <silent> <leader>wk :wincmd k<cr>:close<cr>
+noremap <silent> <leader>wh :wincmd h<cr>:close<cr>
+noremap <silent> <leader>wl :wincmd l<cr>:close<cr>
+noremap <silent> <leader>wc :close<cr>
+noremap <silent> <leader>ww :cclose<cr>
+noremap <silent> <c-7> <c-w>>
+noremap <silent> <c-8> <c-w>+
+noremap <silent> <c-9> <c-w>+
+noremap <silent> <c-0> <c-w>>
+"----rot 13
+noremap <c-up> ggg?G``
+"----invert up down
+noremap <c-down> :g/^/m0<cr>
+"----reverse left right
+noremap <c-left> <esc>:se rl!<cr> 
+"----reverse inplace
+noremap <c-right> :%s/\(\<.\{-}\>\)/\=join(reverse(split(submatch(1), '.\zs')), '')/g<cr>
+noremap <leader>ms :%sort<cr>
+"----customize my vim anytime
+noremap  <f2>       <esc><c-w>v:e $MYVIMRC<cr>
+
+"----easy motion
+nmap <silent> ]] L<leader><leader>F
+nmap <silent> [[ H<leader><leader>f
+"----easy motion
+nnoremap <a-f> f
+nnoremap <a-F> F
+
+nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+nnoremap \r :PyREPLToggle<CR>
+nnoremap <a-,> ,
+"----select sentence
+nnoremap <a-s> (v)
+nnoremap <a-a> mmggVG
 "----quick save
 nnoremap <c-s> :update<cr>
 "----replace with yanked word
@@ -60,24 +104,23 @@ nnoremap gr gd[{V%:s/<c-r>///gc<left><left><left>
 "---- global replace
 nnoremap gR gD:%s/<c-r>///gc<left><left><left>
 "---- insert line break and space
-nnoremap <leader><leader> ,
 nnoremap <bs> i<bs><esc><right>
-nnoremap <space> i<space><esc>
+"nnoremap <space> i<space><esc>
 nnoremap <cr> i<cr><Esc>
 nnoremap <a-j> mzo<esc>`z
 nnoremap <s-cr> mz<s-o><esc>`z
 " search the current file for what's currently in the search register and display matches
-nnoremap <silent> ,gs :vimgrep /<C-r>// %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
+nnoremap <silent> <leader>gs :vimgrep /<C-r>// %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 " search the current file for the word under the cursor and display matches
-nnoremap <silent> ,gw :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
+nnoremap <silent> <leader>gw :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 " search the current file for the WORD under the cursor and display matches
-nnoremap <silent> ,gW :vimgrep /<C-r><C-a>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
-nnoremap ,gg :vimgrep // ./**/*<left><left><left><left><left><left><left><left>
+nnoremap <silent> <leader>gW :vimgrep /<C-r><C-a>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
+nnoremap <leader>gg :vimgrep // ./**/*<left><left><left><left><left><left><left><left>
 " swap two words
 nnoremap <silent> <a-T> :s/\(\w*\%#\w*\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>``
 nnoremap <silent> <a-t> :s/\(\w\+\)\(\_W\+\)\(\w*\%#\w*\)/\3\2\1/<CR>``
 "----permission
-nnoremap ,x :w<cr>:!chmod 755 %<cr>:e<cr>
+nnoremap <leader>x :w<cr>:!chmod 755 %<cr>:e<cr>
 "----apply vim config
 nnoremap <c-F2> :mapclear<cr>:so %<cr>
 "----case insensitive search
@@ -89,7 +132,7 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 nnoremap <silent> <a-/> :let @/=""<cr>
 "----paste with ctrl V
-nnoremap <c-v> "+gp
+nnoremap <a-v> "+gp
 "----move line up down
 nnoremap <a-n> :m+<cr>==
 nnoremap <a-p> :m-2<cr>==
@@ -106,10 +149,14 @@ nnoremap <silent> <s-f1> :MRU<cr>
 nnoremap <silent> <s-f2> :NERDTreeToggle<cr>
 "----function def
 nnoremap <silent> <s-f3> :TagbarToggle<cr>
-
-
-
-
+"----send to REPL
+nnoremap <a-x> :call system("screen -S s1 -p w1 -X stuff '".@+."\n'")<CR>
+nnoremap <a-c> mmvip"+ygv
+nnoremap <a-b> mmvab"+ygv
+nnoremap <a-z> mm^v$"+ygv
+  
+"----send to REPL
+inoremap <a-x> <c-o>vip"+y<c-o>:call system("screen -S s1 -p w1 -X stuff '".@+."\n'")<CR>
 "----linebreak newline above
 inoremap <s-cr> <c-o><s-o>
 "----quick save
@@ -149,10 +196,11 @@ inoremap <a-j> <down>
 inoremap <a-k> <up>
 inoremap <a-l> <right>
 
-
-cnoremap <c-d>      <del>
+"----Emacs key bindings
+cnoremap <C-D>      <Del>
 cnoremap <a-b>      <s-left>
 cnoremap <a-f>      <S-right>
+cnoremap <a-d>      <S-right><S-W>
 cnoremap <c-a>      <home>
 cnoremap <c-e>      <end>
 cnoremap <c-b>      <left>
@@ -162,37 +210,11 @@ cnoremap <c-p>      <pageUp>
 "----ctrl+v paste
 cnoremap <c-v> <c-r>+
 
-
-"----window sizer
-noremap <silent> <C-F8>  <c-w>v :e ~/Desktop/thesis<cr>GO
-noremap <silent> <C-F9>  :vertical resize -10<cr>
-noremap <silent> <C-F10> :resize +10<cr>
-noremap <silent> <C-F11> :resize -10<cr>
-noremap <silent> <C-F12> :vertical resize +10<cr>
-noremap <silent> ,w8 :vertical resize 83<cr>
-noremap <silent> ,wj :wincmd j<cr>:close<cr>
-noremap <silent> ,wk :wincmd k<cr>:close<cr>
-noremap <silent> ,wh :wincmd h<cr>:close<cr>
-noremap <silent> ,wl :wincmd l<cr>:close<cr>
-noremap <silent> ,wc :close<cr>
-noremap <silent> ,ww :cclose<cr>
-noremap <silent> <c-7> <c-w>>
-noremap <silent> <c-8> <c-w>+
-noremap <silent> <c-9> <c-w>+
-noremap <silent> <c-0> <c-w>>
-"----rot 13
-noremap <c-up> ggg?G``
-"----invert up down
-noremap <c-down> :g/^/m0<cr>
-"----reverse left right
-noremap <c-left> <esc>:se rl!<cr> 
-"----reverse inplace
-noremap <c-right> :%s/\(\<.\{-}\>\)/\=join(reverse(split(submatch(1), '.\zs')), '')/g<cr>
-noremap <leader>ms :%sort<cr>
-"----customize my vim anytime
-noremap  <f2>       <esc><c-w>v:e $MYVIMRC<cr>
-
  
+"----sendto REPL
+vnoremap <a-x> "+y:call system("screen -S s1 -p w1 -X stuff '".@+."\n'")<CR><Esc>
+vnoremap <a-v> <c-w>p"*p<c-w>p
+
 "----quit visual mode
 vnoremap <space> <esc>
 "----move line up down
@@ -204,7 +226,7 @@ vnoremap <c-c> "+y
 vnoremap <c-s> <esc>:update<cr>
 
 
-nmap <silent> ,qq :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
+nmap <silent> <leader>qq :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
 
 autocmd BufEnter * silent! lcd %:p:h
 
@@ -219,7 +241,7 @@ function! ToggleRelNum()
 endfunction
 nnoremap <silent> gt :call ToggleRelNum()<cr>
 
-
+"----move cursor to the middle of the line
 function! s:Gm()
     execute 'normal! ^'
     let first_col = virtcol('.')
@@ -250,6 +272,8 @@ let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 "nnoremap N :silent call SearchNoComment('<C-R>=@/<CR>', 'b')<CR>
 
 filetype plugin indent on
+source ~/.vim/bundle/sparkup/sparkup.vim
+source ~/.vim/bundle/browser-refresh.vim/plugin/browser-refresh.vim
 call pathogen#infect()
 
 " Disable AutoComplPop. Comment out this line if AutoComplPop is not installed.
@@ -327,3 +351,5 @@ let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
+let g:neosnippet#snippets_directory='~/.vim/snippets'
